@@ -1,0 +1,7 @@
+1. Create a project containing multiple subprojects each containing one program. 
+   factorial
+   primeDisplay
+   EvenOddCheck
+   fibbonacci
+   
+ when we build this it should build all projects

@@ -16,11 +16,12 @@ go inside build folder
 cd build
 and now use cmake to create your project using cmake system.
 cmake ../
-now build your project
-cmake --build .
+now build your project in any of following mode 
+cmake --build . --config debug
+cmake --build . --config release 
 
-This will build your project using default cmpiler on your system
-and it should product factorial.exe in debug folder. 
+This will build your project using default compiler on your system
+and it should product factorial.exe in debug/release folder. 
 
 creating library
 -------------------
