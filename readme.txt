@@ -21,7 +21,7 @@ cmake --build . --config debug
 cmake --build . --config release 
 
 This will build your project using default compiler on your system
-and it should product factorial.exe in debug/release folder. 
+and it should produce factorial.exe in debug/release folder. 
 
 creating library
 -------------------

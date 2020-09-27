@@ -1,7 +1,114 @@
-1. Create a project containing multiple subprojects each containing one program. 
-   factorial
-   primeDisplay
-   EvenOddCheck
-   fibbonacci
-   
- when we build this it should build all projects
+======================================================================
+1. Creating simple application using cmake
+======================================================================
+Create a new folder say "test"
+
+Create a cpp file main.cpp with following content
+#include <iostream>
+int main() {
+  std::cout << "Hello World, welcome to Learning Cmake!" << std::endl;
+  return 0;
+}
+
+Create a CMakeLists.txt file with following content
+cmake_minimum_required(VERSION 3.10)
+project(test)
+add_executable(main main.cpp)
+install(TARGETS main DESTINATION bin)
+
+Start command prompt in admin mode
+create "build" folder inside "test" folder
+Go inside build folder from command prompt
+$cmake ../ [-DCMAKE_INSTALL_PREFIX=../install]
+$cmake --build . --target install [--config release/debug]
+
+arguments in [] are optional and you can give that if you want to change default installation directory
+
+======================================================================
+2. Creating simple library using cmake
+======================================================================
+
+Create a new folder say "libtest"
+
+Create a cpp file "fact.cpp" with following content
+#include "fact.h"
+int fact(int n) {
+	int fact=1;
+	for(int i=1;i<=n;i++) 
+		fact*=i;
+	return fact;
+}
+
+create a header file "fact.h" with following content
+int fact(int n);
+
+Create a CMakeLists.txt with following content 
+cmake_minimum_required(VERSION 2.8)
+project(libtest)
+add_library(factlib STATIC fact.cpp)
+install(TARGETS factlib DESTINATION lib)
+install(FILES fact.h DESTINATION include)
+
+Start command prompt in admin mode
+create "build" folder inside "libtest" folder
+
+Go inside build folder from command prompt
+$cmake ../ [-DCMAKE_INSTALL_PREFIX=../install]
+$cmake --build . --target install [--config release/debug]
+
+
+======================================================================
+3. Creating and using simple library using cmake
+======================================================================
+
+This is doing job of 1 and 2 together. 
+
+Create a new folder say "test"
+
+Create a cpp file main.cpp with following content
+#include <iostream>
+#include "fact.h"
+int main() {
+  std::cout << "Hello World, welcome to Learning Cmake!" << std::endl;
+  std::cout << "Factorial of 5 is:" << fact(5) << std::endl;
+  return 0;
+}
+
+Create a CMakeLists.txt with following content 
+cmake_minimum_required(VERSION 2.8)
+project(test)
+add_subdirectory(libtest)
+include_directories(${CMAKE_SOURCE_DIR}/libtest)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+add_executable(main main.cpp)
+target_link_libraries(main factlib)
+install(TARGETS main DESTINATION bin)
+
+create a subfolder "libtest"
+
+Create a cpp file "fact.cpp" with following content
+#include "fact.h"
+int fact(int n) {
+	int fact=1;
+	for(int i=1;i<=n;i++) 
+		fact*=i;
+	return fact;
+}
+
+create a header file "fact.h" with following content
+int fact(int n);
+
+Create a CMakeLists.txt with following content 
+cmake_minimum_required(VERSION 2.8)
+project(libtest)
+add_library(factlib STATIC fact.cpp)
+install(TARGETS factlib DESTINATION lib)
+install(FILES fact.h DESTINATION include)
+
+Start command prompt in admin mode
+create "build" folder inside "libtest" folder
+
+Go inside build folder from command prompt
+$cmake ../ -DCMAKE_INSTALL_PREFIX=../install
+$cmake --build . --target install [--config release/debug]
+
